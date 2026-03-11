@@ -9,6 +9,8 @@ interface Props {
   onReset: () => void;
 }
 
+const TEACHER_EMAIL = "20365466@k12.hi.us";
+
 export default function ScoreSummary({
   studentName,
   passageTitle,
@@ -21,8 +23,51 @@ export default function ScoreSummary({
 }: Props) {
   const unanswered = totalBlanks - correct - incorrect;
   const scoreFormula = `${correct} - [${incorrect}/2] = ${score}`;
-
   const benchmark = getDIBELSBenchmark(grade);
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const handleEmail = () => {
+    const subject = encodeURIComponent(
+      `Maze CBM Score – ${studentName || "Student"} – ${new Date().toLocaleDateString()}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Maze CBM Assessment Results`,
+        `Date: ${today}`,
+        ``,
+        `Student: ${studentName || "(not entered)"}`,
+        `Grade: ${grade}`,
+        `Passage: ${passageTitle}`,
+        ``,
+        `--- RESULTS ---`,
+        `Total Blanks:  ${totalBlanks}`,
+        `Correct (C):   ${correct}`,
+        `Incorrect (I): ${incorrect}`,
+        `Skipped:       ${unanswered}`,
+        ``,
+        `DIBELS Score (C - I÷2): ${score}`,
+        `Formula: ${correct} - [${incorrect}/2] = ${score}`,
+        ``,
+        benchmark ? `Benchmark Reference (Grade ${grade}):` : "",
+        benchmark ? benchmark : "",
+        ``,
+        `--`,
+        `Sent from Maze CBM Assessment App`,
+      ]
+        .filter((line, i, arr) => !(line === "" && arr[i - 1] === ""))
+        .join("\n")
+    );
+
+    window.open(
+      `mailto:${TEACHER_EMAIL}?subject=${subject}&body=${body}`,
+      "_blank"
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-12">
@@ -41,6 +86,10 @@ export default function ScoreSummary({
           <div className="flex justify-between text-sm">
             <span className="text-slate-500">Student</span>
             <span className="font-medium text-slate-800">{studentName || "—"}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-slate-500">Date</span>
+            <span className="font-medium text-slate-800">{today}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-slate-500">Passage</span>
@@ -87,15 +136,22 @@ export default function ScoreSummary({
           </div>
         )}
 
-        <div className="bg-slate-100 rounded-lg p-3 mb-5 text-center">
-          <p className="text-xs text-slate-500 font-medium">
-            ✏️ Please write this score on your paper record now
-          </p>
-        </div>
+        <button
+          onClick={handleEmail}
+          className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-semibold py-3 rounded-xl text-base transition-colors shadow-sm mb-3 flex items-center justify-center gap-2"
+        >
+          <span>✉</span>
+          Submit Score by Email
+        </button>
+
+        <p className="text-xs text-center text-slate-400 mb-4">
+          Opens Gmail and sends results to{" "}
+          <span className="font-mono">{TEACHER_EMAIL}</span>
+        </p>
 
         <button
           onClick={onReset}
-          className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-3 rounded-xl text-base transition-colors shadow-sm"
+          className="w-full bg-slate-200 hover:bg-slate-300 active:bg-slate-400 text-slate-700 font-semibold py-3 rounded-xl text-base transition-colors"
         >
           ↺ Reset — Next Student
         </button>
