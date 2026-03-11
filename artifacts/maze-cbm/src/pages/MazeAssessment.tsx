@@ -143,7 +143,7 @@ export default function MazeAssessment() {
             {studentName ? `Student: ${studentName}` : "Assessment in progress"}
           </div>
           <div className="text-xs text-slate-500 hidden sm:block">
-            Grade {passage.grade} — {passage.title}
+            Level {passage.grade} — {passage.title}
           </div>
         </div>
 

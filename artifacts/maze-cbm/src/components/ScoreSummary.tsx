@@ -41,7 +41,7 @@ export default function ScoreSummary({
         `Date: ${today}`,
         ``,
         `Student: ${studentName || "(not entered)"}`,
-        `Grade: ${grade}`,
+        `Level: ${grade}`,
         `Passage: ${passageTitle}`,
         ``,
         `--- RESULTS ---`,
@@ -53,7 +53,7 @@ export default function ScoreSummary({
         `DIBELS Score (C - I÷2): ${score}`,
         `Formula: ${correct} - [${incorrect}/2] = ${score}`,
         ``,
-        benchmark ? `Benchmark Reference (Grade ${grade}):` : "",
+        benchmark ? `Benchmark Reference (Level ${grade}):` : "",
         benchmark ? benchmark : "",
         ``,
         `--`,
@@ -96,7 +96,7 @@ export default function ScoreSummary({
             <span className="font-medium text-slate-800">{passageTitle}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Grade</span>
+            <span className="text-slate-500">Level</span>
             <span className="font-medium text-slate-800">{grade}</span>
           </div>
           <div className="flex justify-between text-sm">
@@ -131,7 +131,7 @@ export default function ScoreSummary({
 
         {benchmark && (
           <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-5 text-sm text-amber-800">
-            <p className="font-semibold mb-0.5">DIBELS 8th Edition Benchmark (Grade {grade})</p>
+            <p className="font-semibold mb-0.5">DIBELS 8th Edition Benchmark (Level {grade})</p>
             <p className="text-xs">{benchmark}</p>
           </div>
         )}

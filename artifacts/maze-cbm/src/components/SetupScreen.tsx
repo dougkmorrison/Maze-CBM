@@ -64,7 +64,7 @@ export default function SetupScreen({
                 .map(([grade, gradePassages]) => (
                   <div key={grade}>
                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1 mt-2">
-                      Grade {grade}
+                      Level {grade}
                     </p>
                     <div className="space-y-1">
                       {gradePassages.map((p) => (
@@ -99,8 +99,8 @@ export default function SetupScreen({
               <li>Every 7th word is replaced with 3 answer choices</li>
               <li>
                 {selectedPassage.grade === 2
-                  ? "First 2 sentences and last sentence kept intact (Grade 2)"
-                  : "First and last sentences kept intact (Grades 3–8)"}
+                  ? "First 2 sentences and last sentence kept intact (Level 2)"
+                  : "First and last sentences kept intact (Levels 3–8)"}
               </li>
               <li>3-minute countdown timer starts immediately</li>
               <li>Score shown on screen — no data is saved</li>
