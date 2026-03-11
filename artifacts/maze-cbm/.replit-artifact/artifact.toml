@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Maze CBM Assessment"
+version = "1.0.0"
+id = "artifacts/maze-cbm"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 18371
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/maze-cbm run dev"
+
+[services.env]
+PORT = "18371"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/maze-cbm", "run", "build"]
+publicDir = "artifacts/maze-cbm/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
