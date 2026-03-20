@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { passages } from "@/data/passages";
 import { buildMazePassage, MazePassage, MazeToken } from "@/lib/maze-engine";
-import SetupScreen from "@/components/SetupScreen";
+import PasswordScreen from "@/components/PasswordScreen";
+import StudentSetup from "@/components/StudentSetup";
 import ScoreSummary from "@/components/ScoreSummary";
 
-type Phase = "setup" | "assessment" | "done";
+type Phase = "password" | "setup" | "assessment" | "done";
 
 const TOTAL_SECONDS = 180;
 
@@ -15,7 +16,7 @@ interface StudentAnswer {
 }
 
 export default function MazeAssessment() {
-  const [phase, setPhase] = useState<Phase>("setup");
+  const [phase, setPhase] = useState<Phase>("password");
   const [selectedPassageId, setSelectedPassageId] = useState<string>(passages[0].id);
   const [studentName, setStudentName] = useState<string>("");
   const [mazePassage, setMazePassage] = useState<MazePassage | null>(null);
@@ -26,27 +27,33 @@ export default function MazeAssessment() {
 
   const passage = passages.find((p) => p.id === selectedPassageId)!;
 
-  const startAssessment = useCallback(() => {
-    const built = buildMazePassage(passage);
-    const initialAnswers: StudentAnswer[] = Array.from(
-      { length: built.totalBlanks },
-      (_, i) => {
-        const token = built.tokens.find(
-          (t) => t.type === "blank" && t.blankIndex === i
-        )!;
-        return {
-          blankIndex: i,
-          selectedIndex: null,
-          correctIndex: token.correctIndex ?? 0,
-        };
-      }
-    );
-    setMazePassage(built);
-    setAnswers(initialAnswers);
-    setTimeLeft(TOTAL_SECONDS);
-    setTimerActive(true);
-    setPhase("assessment");
-  }, [passage]);
+  const startAssessment = useCallback(
+    (name: string, passageId: string) => {
+      const p = passages.find((x) => x.id === passageId)!;
+      const built = buildMazePassage(p);
+      const initialAnswers: StudentAnswer[] = Array.from(
+        { length: built.totalBlanks },
+        (_, i) => {
+          const token = built.tokens.find(
+            (t) => t.type === "blank" && t.blankIndex === i
+          )!;
+          return {
+            blankIndex: i,
+            selectedIndex: null,
+            correctIndex: token.correctIndex ?? 0,
+          };
+        }
+      );
+      setStudentName(name);
+      setSelectedPassageId(passageId);
+      setMazePassage(built);
+      setAnswers(initialAnswers);
+      setTimeLeft(TOTAL_SECONDS);
+      setTimerActive(true);
+      setPhase("assessment");
+    },
+    []
+  );
 
   useEffect(() => {
     if (timerActive && timeLeft > 0) {
@@ -104,17 +111,12 @@ export default function MazeAssessment() {
   const seconds = timeLeft % 60;
   const isLowTime = timeLeft <= 30;
 
+  if (phase === "password") {
+    return <PasswordScreen onUnlock={() => setPhase("setup")} />;
+  }
+
   if (phase === "setup") {
-    return (
-      <SetupScreen
-        passages={passages}
-        selectedPassageId={selectedPassageId}
-        setSelectedPassageId={setSelectedPassageId}
-        studentName={studentName}
-        setStudentName={setStudentName}
-        onStart={startAssessment}
-      />
-    );
+    return <StudentSetup onStart={startAssessment} />;
   }
 
   if (phase === "done") {
@@ -140,7 +142,7 @@ export default function MazeAssessment() {
             MAZE CBM
           </div>
           <div className="text-sm font-medium text-slate-700 hidden sm:block">
-            {studentName ? `Student: ${studentName}` : "Assessment in progress"}
+            {studentName ? `${studentName}` : "Assessment in progress"}
           </div>
           <div className="text-xs text-slate-500 hidden sm:block">
             Level {passage.grade} — {passage.title}
