@@ -9,7 +9,7 @@ interface Props {
   onReset: () => void;
 }
 
-const TEACHER_EMAIL = "20365466@k12.hi.us";
+const TEACHER_EMAIL = "douglas.morrison@k12.hi.us";
 
 export default function ScoreSummary({
   studentName,
@@ -30,44 +30,6 @@ export default function ScoreSummary({
     month: "long",
     day: "numeric",
   });
-
-  const handleEmail = () => {
-    const subject = encodeURIComponent(
-      `Maze CBM Score – ${studentName || "Student"} – ${new Date().toLocaleDateString()}`
-    );
-    const body = encodeURIComponent(
-      [
-        `Maze CBM Assessment Results`,
-        `Date: ${today}`,
-        ``,
-        `Student: ${studentName || "(not entered)"}`,
-        `Level: ${grade}`,
-        `Passage: ${passageTitle}`,
-        ``,
-        `--- RESULTS ---`,
-        `Total Blanks:  ${totalBlanks}`,
-        `Correct (C):   ${correct}`,
-        `Incorrect (I): ${incorrect}`,
-        `Skipped:       ${unanswered}`,
-        ``,
-        `DIBELS Score (C - I÷2): ${score}`,
-        `Formula: ${correct} - [${incorrect}/2] = ${score}`,
-        ``,
-        benchmark ? `Benchmark Reference (Level ${grade}):` : "",
-        benchmark ? benchmark : "",
-        ``,
-        `--`,
-        `Sent from Maze CBM Assessment App`,
-      ]
-        .filter((line, i, arr) => !(line === "" && arr[i - 1] === ""))
-        .join("\n")
-    );
-
-    window.open(
-      `mailto:${TEACHER_EMAIL}?subject=${subject}&body=${body}`,
-      "_blank"
-    );
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-12">
@@ -136,18 +98,25 @@ export default function ScoreSummary({
           </div>
         )}
 
-        <button
-          onClick={handleEmail}
-          className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-semibold py-3 rounded-xl text-base transition-colors shadow-sm mb-3 flex items-center justify-center gap-2"
-        >
-          <span>✉</span>
-          Submit Score by Email
-        </button>
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5">
+          <p className="text-sm font-semibold text-slate-700 mb-3">
+            📸 Take a screenshot of this page, then email it to your teacher:
+          </p>
 
-        <p className="text-xs text-center text-slate-400 mb-4">
-          Opens Gmail and sends results to{" "}
-          <span className="font-mono">{TEACHER_EMAIL}</span>
-        </p>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <ChromebookKey label="ctrl" wide />
+            <span className="text-slate-400 font-bold text-lg">+</span>
+            <ChromebookKey label="⬛▭▭" showWindows />
+          </div>
+          <p className="text-xs text-center text-slate-500 mb-4">
+            Press <strong>Ctrl</strong> + the <strong>Show Windows</strong> key to take a screenshot
+          </p>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 text-center">
+            <p className="text-xs text-blue-600 mb-0.5">Email your screenshot to:</p>
+            <p className="text-sm font-bold text-blue-800 font-mono">{TEACHER_EMAIL}</p>
+          </div>
+        </div>
 
         <button
           onClick={onReset}
@@ -156,6 +125,39 @@ export default function ScoreSummary({
           ↺ Reset — Next Student
         </button>
       </div>
+    </div>
+  );
+}
+
+function ChromebookKey({
+  label,
+  wide,
+  showWindows,
+}: {
+  label: string;
+  wide?: boolean;
+  showWindows?: boolean;
+}) {
+  return (
+    <div
+      className={`
+        inline-flex flex-col items-center justify-center
+        bg-white border-2 border-slate-300 rounded-lg shadow-sm
+        text-slate-700 font-bold select-none
+        ${wide ? "px-4 py-2 text-sm min-w-[60px]" : ""}
+        ${showWindows ? "px-3 py-2 min-w-[56px]" : ""}
+      `}
+      style={{ boxShadow: "0 3px 0 #cbd5e1" }}
+    >
+      {showWindows ? (
+        <svg width="32" height="22" viewBox="0 0 32 22" fill="none">
+          <rect x="1" y="1" width="14" height="20" rx="2" stroke="#475569" strokeWidth="2" fill="#e2e8f0" />
+          <rect x="18" y="4" width="13" height="5" rx="1.5" stroke="#475569" strokeWidth="1.5" fill="#e2e8f0" />
+          <rect x="18" y="13" width="13" height="5" rx="1.5" stroke="#475569" strokeWidth="1.5" fill="#e2e8f0" />
+        </svg>
+      ) : (
+        <span className="text-sm leading-tight">{label}</span>
+      )}
     </div>
   );
 }
