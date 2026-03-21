@@ -91,6 +91,23 @@ Generated Zod schemas from the OpenAPI spec (e.g. `HealthCheckResponse`). Used b
 
 Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHealthCheck`, `healthCheck`).
 
+### `artifacts/maze-cbm` (`@workspace/maze-cbm`)
+
+Vite + React app for administering DIBELS 8th Edition Maze CBM assessments on Chromebooks.
+
+- **Password screen**: hardcoded password `1234` (PasswordScreen.tsx)
+- **Student setup**: name + reading Level 2–8 selection (StudentSetup.tsx)
+- **Assessment**: 3-minute timed Maze CBM passage with inline word choices (MazeAssessment.tsx)
+- **Score summary**: C − floor(I/2) formula, mailto button to `20365466@k12.hi.us` (ScoreSummary.tsx)
+- **Passages**: 42 real DIBELS 8th Edition passages (6 per grade, grades 2–8) stored in `src/data/passages.ts`
+  - Extracted from official DIBELS key booklet PDFs using pdfjs-dist font detection
+  - Font `g_d0_f3` = correct answers, `g_d0_f1` = distractor words
+  - BFS blank-group detection with missed-f3 cleanup pass
+  - Word counts: Grade 2: ~357-408 words; Grade 8: ~439-490 words
+- **Maze engine**: `src/lib/maze-engine.ts` replaces every 7th word with inline choices
+  - Grade 2: first 2 sentences + last sentence protected; Grades 3–8: first + last sentence protected
+- No database — all results display on-screen only
+
 ### `scripts` (`@workspace/scripts`)
 
 Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
