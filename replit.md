@@ -95,22 +95,27 @@ Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHea
 
 Vite + React app for administering DIBELS 8th Edition Maze CBM assessments on Chromebooks.
 
-- **Password screen**: hardcoded password `1234` (PasswordScreen.tsx)
-- **Student setup**: name + reading Level 2–8 selection (StudentSetup.tsx)
+#### Student Flow
+- **Student Login**: 10-digit student ID entry (StudentLogin.tsx); contacts `/api/student/login` to look up prior grade + completed passages
+- **Grade Picker**: shown only for first-time students; selects Level 2–8 (GradePicker.tsx)
 - **Assessment**: 3-minute timed Maze CBM passage with inline word choices (MazeAssessment.tsx)
-- **Score summary**: C − floor(I/2) formula, mailto button to `20365466@k12.hi.us` (ScoreSummary.tsx)
-- **Passages**: 42 real DIBELS 8th Edition passages (6 per grade, grades 2–8) stored in `src/data/passages.ts`
-  - Each passage has `segments[]` (N+1 text chunks) interleaved with `blanks[]` (N word choices)
-  - Grades 2–4: extracted from DIBELS key booklet PDFs using pdfjs-dist; text + blank positions from `dibels_final_blanks.json`
-  - Grades 5–8: extracted directly from student booklet PDFs using geometric blank detection:
-    - Choice groups (3-word vertical columns) identified as blank positions
-    - Intra-line blanks detected by choice column x between two text items on same y
-    - Inter-line blanks detected by choice column y spanning the gap between text lines
-    - Page range filtering: scoring pages and "Keep going" instructions excluded
-  - 97% of blanks have 2 distractors; extracted from student PDF choice columns
-- **Maze engine**: `src/lib/maze-engine.ts` reads `segments[]` directly — no word counting
-  - Renders: seg[0] + [blank0] + seg[1] + [blank1] + ... + seg[N]
-- No database — all results display on-screen only
+  - Automatically assigns next unfinished passage for that student's grade
+  - After completion, saves result to Google Sheets via `/api/student/result`
+- **Score summary**: C − floor(I/2) formula; Chromebook screenshot instructions (Ctrl + Show Windows); teacher email `douglas.morrison@k12.hi.us` (ScoreSummary.tsx)
+
+#### Teacher Portal
+- Access via "Teacher Access" link on login screen; password `1234`
+- Sortable/filterable table of all student results (TeacherPortal.tsx)
+- CSV download and per-row delete (deletion triggers retake for that student)
+
+#### Passages
+- 42 real DIBELS 8th Edition passages (6 per grade, grades 2–8) in `src/data/passages.ts`
+- Each passage has `segments[]` (N+1 text chunks) interleaved with `blanks[]` (N word choices)
+- Grades 2–4: extracted from DIBELS key booklet PDFs; Grades 5–8: geometric blank detection from student PDFs
+- **Maze engine**: `src/lib/maze-engine.ts` renders seg[0] + [blank0] + seg[1] + ...
+
+#### API integration (`src/lib/api.ts`)
+- `API_BASE = "/api"` — proxied to api-server
 
 ### `scripts` (`@workspace/scripts`)
 
