@@ -100,12 +100,16 @@ Vite + React app for administering DIBELS 8th Edition Maze CBM assessments on Ch
 - **Assessment**: 3-minute timed Maze CBM passage with inline word choices (MazeAssessment.tsx)
 - **Score summary**: C − floor(I/2) formula, mailto button to `20365466@k12.hi.us` (ScoreSummary.tsx)
 - **Passages**: 42 real DIBELS 8th Edition passages (6 per grade, grades 2–8) stored in `src/data/passages.ts`
-  - Extracted from official DIBELS key booklet PDFs using pdfjs-dist font detection
-  - Font `g_d0_f3` = correct answers, `g_d0_f1` = distractor words
-  - BFS blank-group detection with missed-f3 cleanup pass
-  - Word counts: Grade 2: ~357-408 words; Grade 8: ~439-490 words
-- **Maze engine**: `src/lib/maze-engine.ts` replaces every 7th word with inline choices
-  - Grade 2: first 2 sentences + last sentence protected; Grades 3–8: first + last sentence protected
+  - Each passage has `segments[]` (N+1 text chunks) interleaved with `blanks[]` (N word choices)
+  - Grades 2–4: extracted from DIBELS key booklet PDFs using pdfjs-dist; text + blank positions from `dibels_final_blanks.json`
+  - Grades 5–8: extracted directly from student booklet PDFs using geometric blank detection:
+    - Choice groups (3-word vertical columns) identified as blank positions
+    - Intra-line blanks detected by choice column x between two text items on same y
+    - Inter-line blanks detected by choice column y spanning the gap between text lines
+    - Page range filtering: scoring pages and "Keep going" instructions excluded
+  - 97% of blanks have 2 distractors; extracted from student PDF choice columns
+- **Maze engine**: `src/lib/maze-engine.ts` reads `segments[]` directly — no word counting
+  - Renders: seg[0] + [blank0] + seg[1] + [blank1] + ... + seg[N]
 - No database — all results display on-screen only
 
 ### `scripts` (`@workspace/scripts`)

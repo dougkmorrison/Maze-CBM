@@ -221,8 +221,6 @@ function RenderPassage({
   return (
     <p className="whitespace-pre-wrap">
       {mazePassage.tokens.map((token, i) => {
-        if (token.type === "space") return <span key={i}> </span>;
-        if (token.type === "punctuation") return <span key={i}>{token.text}</span>;
         if (token.type === "word") return <span key={i}>{token.text}</span>;
         if (token.type === "blank") {
           return (
