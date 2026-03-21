@@ -3,9 +3,10 @@ import { passages } from "@/data/passages";
 import { buildMazePassage, MazePassage, MazeToken } from "@/lib/maze-engine";
 import PasswordScreen from "@/components/PasswordScreen";
 import StudentSetup from "@/components/StudentSetup";
+import PracticeScreen from "@/components/PracticeScreen";
 import ScoreSummary from "@/components/ScoreSummary";
 
-type Phase = "password" | "setup" | "assessment" | "done";
+type Phase = "password" | "setup" | "practice" | "assessment" | "done";
 
 const TOTAL_SECONDS = 180;
 
@@ -29,6 +30,15 @@ export default function MazeAssessment() {
 
   const startAssessment = useCallback(
     (name: string, passageId: string) => {
+      setStudentName(name);
+      setSelectedPassageId(passageId);
+      setPhase("practice");
+    },
+    []
+  );
+
+  const beginAssessment = useCallback(
+    (passageId: string) => {
       const p = passages.find((x) => x.id === passageId)!;
       const built = buildMazePassage(p);
       const initialAnswers: StudentAnswer[] = Array.from(
@@ -44,8 +54,6 @@ export default function MazeAssessment() {
           };
         }
       );
-      setStudentName(name);
-      setSelectedPassageId(passageId);
       setMazePassage(built);
       setAnswers(initialAnswers);
       setTimeLeft(TOTAL_SECONDS);
@@ -97,6 +105,7 @@ export default function MazeAssessment() {
     setTimeLeft(TOTAL_SECONDS);
     setPhase("setup");
     setStudentName("");
+    setSelectedPassageId(passages[0].id);
   };
 
   const correct = answers.filter(
@@ -117,6 +126,15 @@ export default function MazeAssessment() {
 
   if (phase === "setup") {
     return <StudentSetup onStart={startAssessment} />;
+  }
+
+  if (phase === "practice") {
+    return (
+      <PracticeScreen
+        onContinue={() => beginAssessment(selectedPassageId)}
+        onSkip={() => beginAssessment(selectedPassageId)}
+      />
+    );
   }
 
   if (phase === "done") {
