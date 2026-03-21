@@ -1,10 +1,8 @@
 import { google } from "googleapis";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ID_FILE = path.join(__dirname, "../../.spreadsheet_id");
+const ID_FILE = path.join(process.cwd(), ".spreadsheet_id");
 const SHEET_NAME = "Results";
 const HEADERS = [
   "Student ID",
@@ -86,8 +84,12 @@ async function createSpreadsheet(): Promise<string> {
     },
   });
   const id = res.data.spreadsheetId!;
-  fs.writeFileSync(ID_FILE, id);
   console.log(`Created spreadsheet: ${id}`);
+  try {
+    fs.writeFileSync(ID_FILE, id);
+  } catch {
+    console.warn(`Could not persist spreadsheet ID to file. Set SPREADSHEET_ID=${id} as an env var to avoid re-creating on restart.`);
+  }
   await ensureHeaders(id);
   return id;
 }
