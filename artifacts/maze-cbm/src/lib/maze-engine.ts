@@ -13,18 +13,15 @@ export interface MazePassage {
   totalBlanks: number;
 }
 
-const DISTRACTORS: Record<string, string[]> = {
-  animals: ["elephant", "mountain", "quickly", "table", "purple", "running", "bright"],
-  verbs: ["jumped", "whispered", "carried", "painted", "climbed", "wondered", "finished"],
-  nouns: ["teacher", "basket", "window", "journey", "season", "pattern", "village"],
-  adjectives: ["enormous", "gentle", "ancient", "narrow", "hollow", "distant", "graceful"],
-  adverbs: ["slowly", "carefully", "silently", "suddenly", "happily", "deeply", "nearly"],
-  filler: ["something", "another", "several", "between", "nothing", "perhaps", "whether"],
-};
-
-function getAllDistractors(): string[] {
-  return Object.values(DISTRACTORS).flat();
-}
+// Fallback pool used only for grades 5-8 (key booklets don't include distractors)
+const FALLBACK_DISTRACTORS = [
+  "elephant", "mountain", "quickly", "table", "purple", "running", "bright",
+  "jumped", "whispered", "carried", "painted", "climbed", "wondered", "finished",
+  "teacher", "basket", "window", "journey", "season", "pattern", "village",
+  "enormous", "gentle", "ancient", "narrow", "hollow", "distant", "graceful",
+  "slowly", "carefully", "silently", "suddenly", "happily", "deeply", "nearly",
+  "something", "another", "several", "between", "nothing", "perhaps", "whether",
+];
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -35,20 +32,19 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function pickDistractors(correct: string, count: number): string[] {
-  const pool = getAllDistractors().filter(
+function pickFallbackDistractors(correct: string, count: number): string[] {
+  const pool = FALLBACK_DISTRACTORS.filter(
     (d) => d.toLowerCase() !== correct.toLowerCase() && d.length > 2
   );
-  const shuffled = shuffle(pool);
-  return shuffled.slice(0, count);
+  return shuffle(pool).slice(0, count);
 }
 
-function tokenizeText(text: string): Array<{ word: string; original: string }> {
-  const words: Array<{ word: string; original: string }> = [];
+function tokenizeText(text: string): Array<{ word: string }> {
+  const words: Array<{ word: string }> = [];
   const regex = /\S+/g;
   let match;
   while ((match = regex.exec(text)) !== null) {
-    words.push({ word: match[0], original: match[0] });
+    words.push({ word: match[0] });
   }
   return words;
 }
@@ -80,15 +76,23 @@ export function buildMazePassage(passage: Passage): MazePassage {
 
     words.forEach(({ word }) => {
       globalWordIndex++;
-
       const isEvery7th = globalWordIndex % 7 === 0;
 
       if (isEvery7th && !isProtected) {
         const trailingPunct = word.match(/([.,!?;:]+)$/)?.[1] || "";
         const cleanWord = word.replace(/[.,!?;:]+$/, "");
 
-        const distractors = pickDistractors(cleanWord, 2);
-        const choices = shuffle([cleanWord, ...distractors]);
+        // Use real DIBELS distractors if available for this blank
+        const storedBlank = passage.blanks[blankCounter];
+        let d1: string, d2: string;
+
+        if (storedBlank && storedBlank.distractors.length === 2) {
+          [d1, d2] = storedBlank.distractors as [string, string];
+        } else {
+          [d1, d2] = pickFallbackDistractors(cleanWord, 2) as [string, string];
+        }
+
+        const choices = shuffle([cleanWord, d1, d2]);
         const correctIndex = choices.findIndex(
           (c) => c.toLowerCase() === cleanWord.toLowerCase()
         );
