@@ -175,7 +175,7 @@ export default function MazeAssessment() {
       </header>
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-6">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 leading-relaxed text-lg text-slate-800 font-serif">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-lg text-slate-800 font-serif leading-loose">
           <RenderPassage
             mazePassage={mazePassage!}
             answers={answers}
@@ -235,8 +235,10 @@ function BlankChoice({
   const choices = token.choices!;
 
   return (
-    <span className="inline-flex items-center gap-0.5 mx-0.5 align-baseline">
-      <span className="text-slate-400 text-sm">(</span>
+    <span
+      className="inline-flex flex-col items-start mx-1 border border-slate-400 rounded bg-white"
+      style={{ verticalAlign: 'middle', lineHeight: '1.45rem' }}
+    >
       {choices.map((choice, idx) => {
         const isSelected = answer.selectedIndex === idx;
         return (
@@ -244,18 +246,18 @@ function BlankChoice({
             key={idx}
             onClick={() => onSelect(blankIndex, idx)}
             className={`
-              text-base font-sans px-1.5 py-0.5 rounded transition-all border
+              w-full text-left font-sans text-base px-2 py-0.5 transition-all
               ${isSelected
-                ? "bg-blue-600 text-white border-blue-700 font-semibold shadow-sm"
-                : "bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100 hover:border-blue-400"
+                ? "bg-blue-600 text-white font-semibold"
+                : "text-slate-800 hover:bg-blue-50"
               }
+              ${idx < choices.length - 1 ? "border-b border-slate-300" : ""}
             `}
           >
             {choice}
           </button>
         );
       })}
-      <span className="text-slate-400 text-sm">)</span>
     </span>
   );
 }
