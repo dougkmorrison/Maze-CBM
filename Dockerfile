@@ -9,14 +9,14 @@ WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=production
+ENV PORT=8080
+
 RUN pnpm install --frozen-lockfile
 
 RUN pnpm --filter @workspace/maze-cbm run build
 
 RUN pnpm --filter @workspace/api-server run build
-
-ENV NODE_ENV=production
-ENV PORT=8080
 
 EXPOSE 8080
 
