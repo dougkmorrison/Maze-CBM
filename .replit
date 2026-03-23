@@ -33,3 +33,4 @@ channel = "stable-25_05"
 
 [userenv.shared]
 SPREADSHEET_ID = "1pVMnc_TFMIcsxTWB78spNBDBihQw4tKNUwS-xoeUOA4"
+TEACHER_PASSWORD = "mrmorrison2026"

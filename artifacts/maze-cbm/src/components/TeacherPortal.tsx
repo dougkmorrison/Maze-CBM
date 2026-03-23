@@ -10,7 +10,7 @@ interface Props {
   onBack: () => void;
 }
 
-const TEACHER_PASSWORD = "1234";
+const TEACHER_PASSWORD = "mrmorrison2026";
 
 export default function TeacherPortal({ onBack }: Props) {
   const [authed, setAuthed] = useState(false);
