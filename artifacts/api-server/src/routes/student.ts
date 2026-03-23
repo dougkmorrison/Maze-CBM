@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getStudentResults, saveResult } from "../lib/sheets";
+import { getStudentResults, saveResult } from "../lib/db";
 
 const router = Router();
 

@@ -43,7 +43,7 @@ export async function saveResult(data: {
 }
 
 export interface ResultRow {
-  rowIndex: number;
+  id: string;
   studentId: string;
   grade: number;
   passageId: string;
@@ -57,7 +57,7 @@ export interface ResultRow {
 
 export async function getTeacherResults(
   password: string
-): Promise<{ rows: ResultRow[]; spreadsheetUrl: string }> {
+): Promise<{ rows: ResultRow[] }> {
   const res = await fetch(apiUrl("/teacher/results"), {
     headers: { "x-teacher-password": password },
   });
@@ -70,9 +70,9 @@ export async function getTeacherResults(
 
 export async function deleteTeacherResult(
   password: string,
-  rowIndex: number
+  id: string
 ): Promise<void> {
-  const res = await fetch(apiUrl(`/teacher/result/${rowIndex}`), {
+  const res = await fetch(apiUrl(`/teacher/result/${id}`), {
     method: "DELETE",
     headers: { "x-teacher-password": password },
   });

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllResults, deleteResult, getSpreadsheetUrl } from "../lib/sheets";
+import { getAllResults, deleteResult } from "../lib/db";
 
 const TEACHER_PASSWORD = process.env.TEACHER_PASSWORD ?? "1234";
 
@@ -18,22 +18,21 @@ router.get("/teacher/results", async (req, res) => {
   if (!checkAuth(req, res)) return;
   try {
     const rows = await getAllResults();
-    const url = await getSpreadsheetUrl();
-    return res.json({ rows, spreadsheetUrl: url });
+    return res.json({ rows });
   } catch (err: any) {
     console.error("teacher/results error:", err.message);
     return res.status(500).json({ error: "Failed to load results" });
   }
 });
 
-router.delete("/teacher/result/:rowIndex", async (req, res) => {
+router.delete("/teacher/result/:id", async (req, res) => {
   if (!checkAuth(req, res)) return;
-  const rowIndex = Number(req.params.rowIndex);
-  if (!rowIndex || rowIndex < 2) {
-    return res.status(400).json({ error: "Invalid row index" });
+  const id = req.params.id;
+  if (!id) {
+    return res.status(400).json({ error: "Invalid ID" });
   }
   try {
-    await deleteResult(rowIndex);
+    await deleteResult(id);
     return res.json({ success: true });
   } catch (err: any) {
     console.error("teacher/delete error:", err.message);

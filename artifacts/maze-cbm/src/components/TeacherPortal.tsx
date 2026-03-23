@@ -17,10 +17,9 @@ export default function TeacherPortal({ onBack }: Props) {
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState("");
   const [rows, setRows] = useState<ResultRow[]>([]);
-  const [spreadsheetUrl, setSpreadsheetUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [deleting, setDeleting] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<keyof ResultRow>("timestamp");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [filterText, setFilterText] = useState("");
@@ -31,7 +30,6 @@ export default function TeacherPortal({ onBack }: Props) {
     try {
       const data = await getTeacherResults(TEACHER_PASSWORD);
       setRows(data.rows);
-      setSpreadsheetUrl(data.spreadsheetUrl);
     } catch (err: any) {
       setError(err.message ?? "Failed to load results");
     } finally {
@@ -60,9 +58,9 @@ export default function TeacherPortal({ onBack }: Props) {
       )
     )
       return;
-    setDeleting(row.rowIndex);
+    setDeleting(row.id);
     try {
-      await deleteTeacherResult(TEACHER_PASSWORD, row.rowIndex);
+      await deleteTeacherResult(TEACHER_PASSWORD, row.id);
       await loadResults();
     } catch (err: any) {
       setError(err.message ?? "Delete failed");
@@ -147,16 +145,6 @@ export default function TeacherPortal({ onBack }: Props) {
           <span className="text-sm text-slate-500">{rows.length} records</span>
         </div>
         <div className="flex items-center gap-2">
-          {spreadsheetUrl && (
-            <a
-              href={spreadsheetUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium px-3 py-1.5 rounded-lg border border-blue-200 transition-colors"
-            >
-              Open Sheet ↗
-            </a>
-          )}
           <a
             href={getExportUrl(TEACHER_PASSWORD)}
             download
@@ -240,7 +228,7 @@ export default function TeacherPortal({ onBack }: Props) {
                 )}
                 {sorted.map((row) => (
                   <tr
-                    key={`${row.rowIndex}`}
+                    key={row.id}
                     className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
                   >
                     <td className="px-4 py-3 font-mono text-slate-700">{row.studentId}</td>
@@ -253,11 +241,11 @@ export default function TeacherPortal({ onBack }: Props) {
                     <td className="px-4 py-3">
                       <button
                         onClick={() => handleDelete(row)}
-                        disabled={deleting === row.rowIndex}
+                        disabled={deleting === row.id}
                         className="text-xs bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-medium px-3 py-1 rounded-lg transition-colors disabled:opacity-40"
                         title="Delete — student will retake this passage"
                       >
-                        {deleting === row.rowIndex ? "…" : "Delete"}
+                        {deleting === row.id ? "…" : "Delete"}
                       </button>
                     </td>
                   </tr>

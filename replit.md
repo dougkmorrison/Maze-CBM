@@ -50,7 +50,7 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 
 ## Packages
 
-### `artifacts/api-server` (`@workspace/api-server`)
+### `artifacts/api-server` (`@workspace/api-server`) — Firestore backend
 
 Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` for request and response validation and `@workspace/db` for persistence.
 
@@ -116,6 +116,7 @@ Vite + React app for administering DIBELS 8th Edition Maze CBM assessments on Ch
 
 #### API integration (`src/lib/api.ts`)
 - `API_BASE = "/api"` — proxied to api-server
+- `ResultRow` uses `id: string` (Firestore document ID) for deletion
 
 ### `scripts` (`@workspace/scripts`)
 
