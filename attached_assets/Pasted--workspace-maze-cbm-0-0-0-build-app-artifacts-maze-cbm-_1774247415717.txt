@@ -1,0 +1,240 @@
+> @workspace/maze-cbm@0.0.0 build /app/artifacts/maze-cbm
+> vite build --config vite.config.ts
+
+failed to load config from /app/artifacts/maze-cbm/vite.config.ts
+error during build:
+Error: PORT environment variable is required but was not provided.
+    at file:///app/artifacts/maze-cbm/node_modules/.vite-temp/vite.config.ts.timestamp-1774247195363-d3ff216c4e8b3.mjs:10:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async loadConfigFromBundledFile (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/chunks/config.js:35909:12)
+    at async bundleAndLoadConfigFile (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/chunks/config.js:35797:17)
+    at async loadConfigFromFile (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/chunks/config.js:35764:42)
+    at async resolveConfig (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/chunks/config.js:35413:22)
+    at async createBuilder (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/chunks/config.js:33875:19)
+    at async CAC.<anonymous> (file:///app/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.5_jiti@2.6.1_lightningcss@1.31.1_tsx@4.21.0_yaml@2.8.2/node_modules/vite/dist/node/cli.js:629:10)
+/app/artifacts/maze-cbm:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/maze-cbm@0.0.0 build: `vite build --config vite.config.ts`
+Exit status 1
+The command '/bin/sh -c pnpm --filter @workspace/maze-cbm run build' returned a non-zero code: 1
+ERROR
+ERROR: build step 0 "gcr.io/cloud-builders/gcb-internal" failed: step exited with non-zero status: 1
+---------------------------------------------------------------------------------------------------------------------
+
+BUILD FAILURE: Build step failure: build step 0 "gcr.io/cloud-builders/gcb-internal" failed: step exited with non-zero status: 1
+ERROR: (gcloud.builds.submit) build 970006c1-4d4d-488a-9a72-a4b01d0fa7e2 completed with status "FAILURE"
+dougkmorrison@cloudshell:~/Maze-CBM (sdqa-491022)$ git pull
+gcloud builds submit --tag gcr.io/sdqa-491022/maze-cbm .
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 6 (delta 4), reused 6 (delta 4), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 970 bytes | 485.00 KiB/s, done.
+From https://github.com/dougkmorrison/Maze-CBM
+ * branch            HEAD       -> FETCH_HEAD
+Updating fb88356..e47e330
+Fast-forward
+ Dockerfile                        |  6 +++---
+ artifacts/maze-cbm/vite.config.ts | 19 ++++++-------------
+ 2 files changed, 9 insertions(+), 16 deletions(-)
+Creating temporary archive of 399 file(s) totalling 1.9 MiB before compression.
+Some files were not included in the source upload.
+
+Check the gcloud log [/tmp/tmp.vIQbGwZTcc/logs/2026.03.23/06.28.11.743162.log] to see which files and the contents of the
+default gcloudignore file used (see `$ gcloud topic gcloudignore` to learn
+more).
+
+Uploading tarball of [.] to [gs://sdqa-491022_cloudbuild/source/1774247291.992171-ace1fc710ef24dc88edff67c818902ee.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/sdqa-491022/locations/global/builds/b45f2023-b993-4e2a-b245-4b5bdd1922ac].
+Logs are available at [ https://console.cloud.google.com/cloud-build/builds/b45f2023-b993-4e2a-b245-4b5bdd1922ac?project=800698642720 ].
+Waiting for build to complete. Polling interval: 1 second(s).
+------------------------------------------------ REMOTE BUILD OUTPUT ------------------------------------------------
+starting build "b45f2023-b993-4e2a-b245-4b5bdd1922ac"
+
+FETCHSOURCE
+Fetching storage object: gs://sdqa-491022_cloudbuild/source/1774247291.992171-ace1fc710ef24dc88edff67c818902ee.tgz#1774247293488830
+Copying gs://sdqa-491022_cloudbuild/source/1774247291.992171-ace1fc710ef24dc88edff67c818902ee.tgz#1774247293488830...
+/ [1 files][503.3 KiB/503.3 KiB]                                                
+Operation completed over 1 objects/503.3 KiB.
+BUILD
+Already have image (with digest): gcr.io/cloud-builders/gcb-internal
+Sending build context to Docker daemon  2.384MB
+Step 1/13 : FROM node:22-slim
+22-slim: Pulling from library/node
+6db0909c4473: Pulling fs layer
+e260c4bd6721: Pulling fs layer
+1cb89e70384b: Pulling fs layer
+5b65622f4612: Pulling fs layer
+1f07293921e5: Pulling fs layer
+1f07293921e5: Verifying Checksum
+1f07293921e5: Download complete
+e260c4bd6721: Verifying Checksum
+e260c4bd6721: Download complete
+5b65622f4612: Verifying Checksum
+5b65622f4612: Download complete
+6db0909c4473: Verifying Checksum
+6db0909c4473: Download complete
+1cb89e70384b: Verifying Checksum
+1cb89e70384b: Download complete
+6db0909c4473: Pull complete
+e260c4bd6721: Pull complete
+1cb89e70384b: Pull complete
+5b65622f4612: Pull complete
+1f07293921e5: Pull complete
+Digest: sha256:4f77a690f2f8946ab16fe1e791a3ac0667ae1c3575c3e4d0d4589e9ed5bfaf3d
+Status: Downloaded newer image for node:22-slim
+ c7d2ba7d15bc
+Step 2/13 : ENV PNPM_HOME="/pnpm"
+ Running in 409732055c49
+Removing intermediate container 409732055c49
+ 9282a552b2bf
+Step 3/13 : ENV PATH="$PNPM_HOME:$PATH"
+ Running in 64a007725bcd
+Removing intermediate container 64a007725bcd
+ 67ec7e0c271f
+Step 4/13 : RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
+ Running in 541ac169acb7
+Preparing pnpm@10.26.1 for immediate activation...
+Removing intermediate container 541ac169acb7
+ 2d45ec15bc06
+Step 5/13 : WORKDIR /app
+ Running in 01de421ff211
+Removing intermediate container 01de421ff211
+ 8fec7853900f
+Step 6/13 : COPY . .
+ 4fdd7bcc90b3
+Step 7/13 : ENV NODE_ENV=production
+ Running in 911ec0680526
+Removing intermediate container 911ec0680526
+ b91a528be7e0
+Step 8/13 : ENV PORT=8080
+ Running in 64f870a83ae1
+Removing intermediate container 64f870a83ae1
+ 96224ca418fa
+Step 9/13 : RUN pnpm install --frozen-lockfile
+ Running in a304c3409aad
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +619
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+   ╭───────────────────────────────────────────────╮
+   │                                               │
+   │     Update available! 10.26.1 → 10.32.1.      │
+   │     Changelog: https://pnpm.io/v/10.32.1      │
+   │   To update, run: corepack use pnpm@10.32.1   │
+   │                                               │
+   ╰───────────────────────────────────────────────╯
+Progress: resolved 619, reused 0, downloaded 15, added 0
+Progress: resolved 619, reused 0, downloaded 145, added 82
+Progress: resolved 619, reused 0, downloaded 248, added 140
+Progress: resolved 619, reused 0, downloaded 325, added 202
+Progress: resolved 619, reused 0, downloaded 335, added 205
+Progress: resolved 619, reused 0, downloaded 341, added 209
+Progress: resolved 619, reused 0, downloaded 434, added 248
+Progress: resolved 619, reused 0, downloaded 549, added 324
+Progress: resolved 619, reused 0, downloaded 575, added 335
+Progress: resolved 619, reused 0, downloaded 584, added 336
+Progress: resolved 619, reused 0, downloaded 604, added 343
+Progress: resolved 619, reused 0, downloaded 619, added 619, done
+.../node_modules/@firebase/util postinstall$ node ./postinstall.js
+.../node_modules/protobufjs postinstall$ node scripts/postinstall
+.../node_modules/@firebase/util postinstall: Done
+.../node_modules/protobufjs postinstall: Done
+
+dependencies:
++ adm-zip 0.5.16
++ pdf-parse 2.4.5
++ pdfjs-dist 5.5.207
+
+devDependencies:
++ prettier 3.8.1
++ typescript 5.9.3
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+. preinstall: Done
+╭ Warning ─────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│   Ignored build scripts: esbuild@0.27.3.                                     │
+│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+│   to run scripts.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Done in 13.1s using pnpm v10.26.1
+Removing intermediate container a304c3409aad
+ 0abc79cddbd9
+Step 10/13 : RUN pnpm --filter @workspace/maze-cbm run build
+ Running in 6b6606cf1ceb
+
+> @workspace/maze-cbm@0.0.0 build /app/artifacts/maze-cbm
+> vite build --config vite.config.ts
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 38 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/index.html                   0.67 kB │ gzip:   0.39 kB
+dist/public/assets/index-DXY0oBeq.css   97.00 kB │ gzip:  16.17 kB
+dist/public/assets/index-BsDpfxdm.js   420.71 kB │ gzip: 129.01 kB
+✓ built in 1.78s
+Removing intermediate container 6b6606cf1ceb
+ c954f3dff653
+Step 11/13 : RUN pnpm --filter @workspace/api-server run build
+ Running in ec1caeeb6865
+
+> @workspace/api-server@0.0.0 build /app/artifacts/api-server
+> tsx ./build.ts
+
+building server...
+
+  dist/index.cjs  852.0kb
+
+⚡ Done in 117ms
+Removing intermediate container ec1caeeb6865
+ 6df31bfbd5e0
+Step 12/13 : EXPOSE 8080
+ Running in 8d594008bb94
+Removing intermediate container 8d594008bb94
+ 4c468e355a69
+Step 13/13 : CMD ["node", "artifacts/api-server/dist/index.cjs"]
+ Running in b6eb09b06be4
+Removing intermediate container b6eb09b06be4
+ e6141f21e3ed
+Successfully built e6141f21e3ed
+Successfully tagged gcr.io/sdqa-491022/maze-cbm:latest
+PUSH
+Pushing gcr.io/sdqa-491022/maze-cbm
+The push refers to repository [gcr.io/sdqa-491022/maze-cbm]
+0d4ee55ce50b: Preparing
+a783bfa048c2: Preparing
+0d24f5ce1d96: Preparing
+71e605f3196e: Preparing
+9f9a7f1ac995: Preparing
+d96a5b2277f7: Preparing
+91ea465689b5: Preparing
+17db811a82c8: Preparing
+baa30d2615a7: Preparing
+d91a4ca5dda0: Preparing
+6143ee9e3de0: Preparing
+6143ee9e3de0: Waiting
+17db811a82c8: Layer already exists
+91ea465689b5: Layer already exists
+baa30d2615a7: Layer already exists
+d91a4ca5dda0: Layer already exists
+6143ee9e3de0: Layer already exists
+71e605f3196e: Pushed
+9f9a7f1ac995: Pushed
+0d4ee55ce50b: Pushed
+a783bfa048c2: Pushed
+d96a5b2277f7: Pushed
+0d24f5ce1d96: Pushed
+latest: digest: sha256:69bc2c31a075a15be490357972498fdbece2e2f123208d21c4b1b4967114b567 size: 2629
+DONE
+---------------------------------------------------------------------------------------------------------------------
+ID: b45f2023-b993-4e2a-b245-4b5bdd1922ac
+CREATE_TIME: 2026-03-23T06:28:13+00:00
+DURATION: 1M38S
+SOURCE: gs://sdqa-491022_cloudbuild/source/1774247291.992171-ace1fc710ef24dc88edff67c818902ee.tgz
+IMAGES: gcr.io/sdqa-491022/maze-cbm (+1 more)
+STATUS: SUCCESS
