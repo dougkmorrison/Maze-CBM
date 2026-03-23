@@ -1,0 +1,80 @@
+ougkmorrison@cloudshell:~/Maze-CBM (sdqa-491022)$ gcloud builds log 02b52e44-694d-4847-a48f-fe8d245eb724 2>&1 | tail -80
+Step #1 - "push": The push refers to repository [us-central1-docker.pkg.dev/sdqa-491022/sdqa/sdqa-app]
+Step #1 - "push": f2780148f674: Preparing
+Step #1 - "push": 4eda6b67d29f: Preparing
+Step #1 - "push": fda09503da74: Preparing
+Step #1 - "push": 04b3dc844f10: Preparing
+Step #1 - "push": 2513d303586e: Preparing
+Step #1 - "push": f7099a7ec18e: Preparing
+Step #1 - "push": 82da67f0f0a9: Preparing
+Step #1 - "push": 7a0c9255fc5c: Preparing
+Step #1 - "push": 936daadbd492: Preparing
+Step #1 - "push": 6143ee9e3de0: Preparing
+Step #1 - "push": 7a0c9255fc5c: Layer already exists
+Step #1 - "push": 82da67f0f0a9: Layer already exists
+Step #1 - "push": f7099a7ec18e: Layer already exists
+Step #1 - "push": 936daadbd492: Layer already exists
+Step #1 - "push": f2780148f674: Pushed
+Step #1 - "push": 04b3dc844f10: Pushed
+Step #1 - "push": 2513d303586e: Pushed
+Step #1 - "push": 4eda6b67d29f: Pushed
+Step #1 - "push": 6143ee9e3de0: Pushed
+Step #1 - "push": fda09503da74: Pushed
+Step #1 - "push": 9fd2a793c4fdf9f1f1960c56979eae229b4b54bd: digest: sha256:f07a390c86545a5e683383fb07a6d6f4e3c8dbff77d960ac7cec12c81c9ca3cf size: 2413
+Step #1 - "push": f2780148f674: Preparing
+Step #1 - "push": 4eda6b67d29f: Preparing
+Step #1 - "push": fda09503da74: Preparing
+Step #1 - "push": 04b3dc844f10: Preparing
+Step #1 - "push": 2513d303586e: Preparing
+Step #1 - "push": f7099a7ec18e: Preparing
+Step #1 - "push": 82da67f0f0a9: Preparing
+Step #1 - "push": 7a0c9255fc5c: Preparing
+Step #1 - "push": 936daadbd492: Preparing
+Step #1 - "push": 6143ee9e3de0: Preparing
+Step #1 - "push": f2780148f674: Layer already exists
+Step #1 - "push": 4eda6b67d29f: Layer already exists
+Step #1 - "push": fda09503da74: Layer already exists
+Step #1 - "push": 04b3dc844f10: Layer already exists
+Step #1 - "push": 2513d303586e: Layer already exists
+Step #1 - "push": f7099a7ec18e: Layer already exists
+Step #1 - "push": 82da67f0f0a9: Layer already exists
+Step #1 - "push": 7a0c9255fc5c: Layer already exists
+Step #1 - "push": 936daadbd492: Layer already exists
+Step #1 - "push": 6143ee9e3de0: Layer already exists
+Step #1 - "push": latest: digest: sha256:f07a390c86545a5e683383fb07a6d6f4e3c8dbff77d960ac7cec12c81c9ca3cf size: 2413
+Finished Step #1 - "push"
+Starting Step #2 - "deploy"
+Step #2 - "deploy": Already have image (with digest): gcr.io/cloud-builders/gcloud
+Step #2 - "deploy": Deploying container to Cloud Run service [sdqa-app] in project [sdqa-491022] region [us-central1]
+Step #2 - "deploy": Deploying...
+Step #2 - "deploy": Creating Revision...............................................................................................................................done
+Step #2 - "deploy": Routing traffic.....done
+Step #2 - "deploy": Done.
+Step #2 - "deploy": Service [sdqa-app] revision [sdqa-app-00009-clr] has been deployed and is serving 100 percent of traffic.
+Step #2 - "deploy": Service URL: https://sdqa-app-800698642720.us-central1.run.app
+Finished Step #2 - "deploy"
+PUSH
+Pushing us-central1-docker.pkg.dev/sdqa-491022/sdqa/sdqa-app:9fd2a793c4fdf9f1f1960c56979eae229b4b54bd
+The push refers to repository [us-central1-docker.pkg.dev/sdqa-491022/sdqa/sdqa-app]
+f2780148f674: Preparing
+4eda6b67d29f: Preparing
+fda09503da74: Preparing
+04b3dc844f10: Preparing
+2513d303586e: Preparing
+f7099a7ec18e: Preparing
+82da67f0f0a9: Preparing
+7a0c9255fc5c: Preparing
+936daadbd492: Preparing
+6143ee9e3de0: Preparing
+04b3dc844f10: Layer already exists
+f7099a7ec18e: Layer already exists
+82da67f0f0a9: Layer already exists
+4eda6b67d29f: Layer already exists
+936daadbd492: Layer already exists
+f2780148f674: Layer already exists
+6143ee9e3de0: Layer already exists
+2513d303586e: Layer already exists
+7a0c9255fc5c: Layer already exists
+fda09503da74: Layer already exists
+9fd2a793c4fdf9f1f1960c56979eae229b4b54bd: digest: sha256:f07a390c86545a5e683383fb07a6d6f4e3c8dbff77d960ac7cec12c81c9ca3cf size: 2413
+DONE
